@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0F0D0A;
+  --foreground: #D4C9B0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-eb-garamond), Georgia, serif;
+}
+
+/* Custom subtle animations */
+@keyframes flicker {
+  0%, 100% { opacity: 0.93; }
+  50% { opacity: 1.0; }
+}
+
+.candle-glow {
+  box-shadow: 0 0 45px 15px rgba(223, 215, 191, 0.15);
+  animation: flicker 3s infinite alternate;
+}
+
+/* Utility to override with sans-serif font for stats/scores */
+.font-sans {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif !important;
+}
+
+/* --- Pirate & Gothic HUD Styles --- */
+
+/* Parchment texture background for menus & cards */
+.pirate-parchment {
+  background: radial-gradient(circle at center, #f4e4bc 0%, #d5b88a 60%, #b69466 100%);
+  color: #26160d;
+  border: 4px solid #3d2516;
+  box-shadow: 
+    inset 0 0 30px rgba(58, 33, 18, 0.65), 
+    0 12px 28px rgba(0, 0, 0, 0.7);
+  font-family: var(--font-eb-garamond), Georgia, serif;
+  position: relative;
+}
+
+/* Wood frame panel for HUD widgets */
+.pirate-wood-panel {
+  background: linear-gradient(135deg, #241812 0%, #150f0c 50%, #0d0806 100%);
+  border: 3px solid #4a3427;
+  box-shadow: 
+    inset 0 0 25px rgba(0, 0, 0, 0.95),
+    0 10px 25px rgba(0, 0, 0, 0.8);
+  color: #e4dcc4;
+  position: relative;
+}
+
+/* Wood trim / plank button */
+.pirate-button {
+  background: linear-gradient(to bottom, #4f3423, #2d1c11);
+  border: 2px solid #6b4d3a;
+  color: #e2d8c3;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+  box-shadow: 
+    0 4px 5px rgba(0, 0, 0, 0.6), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: var(--font-eb-garamond), Georgia, serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.pirate-button:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03) rotate(-0.5deg);
+  border-color: #cda972;
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.7), 
+    0 0 10px rgba(205, 169, 114, 0.4);
+  color: #fff8e8;
+}
+
+.pirate-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.pirate-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Metal rivet details */
+.rivet-tl { top: 6px; left: 6px; }
+.rivet-tr { top: 6px; right: 6px; }
+.rivet-bl { bottom: 6px; left: 6px; }
+.rivet-br { bottom: 6px; right: 6px; }
+
+.rivet {
+  width: 7px;
+  height: 7px;
+  background: radial-gradient(circle, #9d8560 20%, #463827 70%, #15110c 100%);
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  position: absolute;
+  z-index: 10;
+}
+
+/* Aged / Burned Gothic Text styling */
+.pirate-gothic-title {
+  color: #cda972;
+  text-shadow: 
+    2px 2px 1px rgba(0, 0, 0, 0.9), 
+    0 0 8px rgba(205, 169, 114, 0.3);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.burned-text {
+  color: #9c2727;
+  text-shadow: 
+    1px 1px 2px rgba(0, 0, 0, 0.8),
+    0 0 6px rgba(156, 39, 39, 0.4);
+  font-weight: 700;
+}
+
+/* Hourglass frame timer HUD */
+.pirate-timer {
+  background: rgba(18, 12, 9, 0.94);
+  border: 2px solid #5a3d2c;
+  color: #e4dcc4;
+  box-shadow: 
+    inset 0 0 12px rgba(0, 0, 0, 0.95), 
+    0 4px 18px rgba(0, 0, 0, 0.7);
+}
+
+/* CSS Ember Rising Animation */
+@keyframes ember-rise {
+  0% {
+    transform: translateY(110vh) translateX(0) scale(var(--start-scale, 1)) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.75;
+  }
+  85% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(var(--move-x, 40px)) scale(var(--end-scale, 0.2)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.ember-particle {
+  position: absolute;
+  background: radial-gradient(circle, #ffaa00 20%, #d44d00 60%, rgba(212, 77, 0, 0) 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
+  box-shadow: 0 0 8px #d44d00;
+  animation: ember-rise var(--duration, 8s) ease-in infinite;
+  animation-delay: var(--delay, 0s);
+  left: var(--left, 50%);
+  bottom: 0;
+}
+
+@keyframes banner-drop {
+  0% {
+    transform: translateY(-120%) rotate(-6deg);
+    opacity: 0;
+  }
+  75% {
+    transform: translateY(8%) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.banner-drop-anim {
+  animation: banner-drop 1.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Custom Scrollbar for Graveyard rolls */
+.pirate-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.pirate-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+.pirate-scroll::-webkit-scrollbar-thumb {
+  background: #5a3c2c;
+  border: 1px solid #3c251a;
+  border-radius: 3px;
+}
+.pirate-scroll::-webkit-scrollbar-thumb:hover {
+  background: #7c543c;
+}
+
+/* --- Cinematic Loading Screen Styles --- */
+.loading-screen {
+  background: radial-gradient(circle at center, #150f0c 0%, #070504 100%);
+  color: #cda972;
+}
+
+.rust-bar-container {
+  width: 260px;
+  height: 10px;
+  background: #18110c;
+  border: 2px solid #4a3427;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.85);
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rust-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, #8a572a, #cda972);
+  box-shadow: 0 0 8px #cda972;
+  transition: width 0.15s ease-out;
+  border-radius: 3px;
+}
+
+/* --- Awwwards-Worthy Cinematic Effects --- */
+
+/* Staggered letter reveal */
+@keyframes letter-pop {
+  0% {
+    transform: translateY(90px) rotateX(-90deg) rotateY(15deg) scale(0.4);
+    opacity: 0;
+    filter: blur(6px) brightness(2.5);
+  }
+  65% {
+    transform: translateY(-12px) rotateX(8deg) scale(1.05);
+    filter: blur(0) brightness(1.2);
+  }
+  100% {
+    transform: translateY(0) rotateX(0) scale(1);
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+.letter-pop-item {
+  display: inline-block;
+  transform-origin: bottom center;
+  animation: letter-pop 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+  backface-visibility: hidden;
+}
+
+
+/* Cinematic Vignette Overlay */
+.cinematic-vignette {
+  background: radial-gradient(circle, transparent 30%, rgba(7, 5, 4, 0.45) 70%, rgba(7, 5, 4, 0.96) 100%);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Pre-game Setup Menu Entrance animations */
+@keyframes menu-slide-in {
+  0% {
+    transform: translateY(60px) rotate(-2deg) scale(0.96);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    transform: translateY(0) rotate(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes button-slide-in {
+  0% {
+    transform: translateX(-35px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.menu-entrance {
+  animation: menu-slide-in 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.button-entrance {
+  animation: button-slide-in 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+
+/* Ragged scroll tear transition curtain */
+@keyframes curtain-slide {
+  0% { transform: translateY(-100%); }
+  45%, 55% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+.cinematic-curtain {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, #221711 0%, #0d0806 100%);
+  z-index: 99;
+  transform: translateY(-100%);
+  pointer-events: none;
+  box-shadow: 0 0 100px rgba(0,0,0,0.9);
+}
+
+.cinematic-curtain.active {
+  animation: curtain-slide 1.5s cubic-bezier(0.86, 0, 0.07, 1) forwards;
+}
+
+/* Ornate filigree details for card overlays */
+.filigree-corner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(205, 169, 114, 0.35);
+  position: absolute;
+  pointer-events: none;
+}
+.filigree-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+.filigree-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+.filigree-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+.filigree-br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+
+
